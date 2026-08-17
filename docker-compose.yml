@@ -1,0 +1,8 @@
+services:
+  house-price-api:
+    build: .
+    container_name: house-price-api
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_PATH: models/house_price_xgb.joblib
