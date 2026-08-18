@@ -22,3 +22,10 @@ Thumbs.db
 
 # Logs
 *.log
+
+# MLflow
+mlflow.db
+mlruns/
+
+# MLflow
+mlruns/

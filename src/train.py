@@ -2,6 +2,8 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+import mlflow
+import mlflow.sklearn
 
 from xgboost import XGBRegressor
 
@@ -24,16 +26,17 @@ from sklearn.preprocessing import (
 
 )
 
-from features import feature_engineering
-
+from src.features import feature_engineering
 
 # CONFIGURATION
 
-DATA_PATH = "../data/housing.csv"
-MODEL_PATH = "../models/house_price_xgb.joblib"
+DATA_PATH = "data/housing.csv"
+MODEL_PATH = "models/house_price_xgb.joblib"
 
 RANDOM_STATE = 42
 
+mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_experiment("house-price-prediction")
 
 # LOAD DATA
 
@@ -72,7 +75,7 @@ numerical_features = X.select_dtypes(
 ).columns
 
 categorical_features = X.select_dtypes(
-    include=["object", "str"]
+    include=["object"]
 ).columns
 
 
@@ -131,6 +134,17 @@ model = Pipeline(
     ]
 )
 
+mlflow.start_run(run_name="xgboost-house-price")
+
+mlflow.log_params({
+    "model": "XGBRegressor",
+    "n_estimators": 400,
+    "learning_rate": 0.05,
+    "max_depth": 3,
+    "random_state": RANDOM_STATE,
+    "test_size": 0.20,
+    "cv_folds": 5
+})
 
 #5-FOLD CROSS-VALIDATION
 
@@ -180,6 +194,15 @@ print("Average R²:", cv_r2.mean())
 print("R² Std:", cv_r2.std())
 
 
+mlflow.log_metrics({
+    "cv_mae_mean": cv_mae.mean(),
+    "cv_mae_std": cv_mae.std(),
+    "cv_rmse_mean": cv_rmse.mean(),
+    "cv_rmse_std": cv_rmse.std(),
+    "cv_r2_mean": cv_r2.mean(),
+    "cv_r2_std": cv_r2.std()
+})
+
 #TRAIN FINAL MODEL
 
 model.fit(
@@ -218,6 +241,11 @@ print("MAE:", mae)
 print("RMSE:", rmse)
 print("R²:", r2)
 
+mlflow.log_metrics({
+    "test_mae": mae,
+    "test_rmse": rmse,
+    "test_r2": r2
+})
 
 #TRAINING PERFORMANCE
 
@@ -239,6 +267,10 @@ print("\n===== TRAIN PERFORMANCE =====")
 print("Train MAE:", train_mae)
 print("Train R²:", train_r2)
 
+mlflow.log_metrics({
+    "train_mae": train_mae,
+    "train_r2": train_r2
+})
 
 #SAVE MODEL
 os.makedirs(
@@ -250,5 +282,13 @@ joblib.dump(
     model,
     MODEL_PATH
 )
+
+mlflow.sklearn.log_model(
+    model,
+    name="house-price-xgb-model",
+    serialization_format="cloudpickle"
+)
+
+mlflow.end_run()
 
 print("\nModel saved to:", MODEL_PATH)

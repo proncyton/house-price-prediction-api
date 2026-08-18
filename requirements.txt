@@ -8,3 +8,5 @@ joblib
 python-dotenv
 pytest
 httpx
+
+pip freeze | findstr mlflow
