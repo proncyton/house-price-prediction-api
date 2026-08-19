@@ -127,7 +127,7 @@ A real request to the deployed API successfully returned:
                    ▼
           🌐 Public REST API
 
-
+```
 
 📊 Model Performance
 
