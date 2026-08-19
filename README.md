@@ -1,241 +1,238 @@
-# House Price Prediction API
+# 🏠 House Price Prediction API
 
+> A production-style machine learning API for predicting residential house prices using **XGBoost**, **FastAPI**, **Docker**, **MLflow**, **GitHub Actions**, **GHCR**, and **Render**.
 
-A production-style machine learning project for predicting residential house prices using **XGBoost**, exposed through a **FastAPI REST API**, containerized with **Docker**, tested with **pytest**, tracked with **MLflow**, and deployed to the cloud through **GitHub Actions, GHCR, and Render**.
+<p align="center">
 
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-Regression-orange?logo=xgboost&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)
+![MLflow](https://img.shields.io/badge/MLflow-Tracking-blue?logo=mlflow&logoColor=white)
+![Pytest](https://img.shields.io/badge/Tests-5%20passed-brightgreen?logo=pytest)
+![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
+![Render](https://img.shields.io/badge/Deployed-Render-46E3B7?logo=render&logoColor=black)
+
+</p>
+
+---
 
 ## 🚀 Live Demo
 
+<table>
+<tr>
+<td align="center" width="50%">
 
-- **Live API:** https://house-price-api-u7zo.onrender.com
-- **Swagger UI:** https://house-price-api-u7zo.onrender.com/docs
+### 🌐 Live API
 
+[**Open API**](https://house-price-api-u7zo.onrender.com)
+
+`https://house-price-api-u7zo.onrender.com`
+
+</td>
+
+<td align="center" width="50%">
+
+### 📖 Swagger UI
+
+[**Open Swagger**](https://house-price-api-u7zo.onrender.com/docs)
+
+`/docs`
+
+</td>
+</tr>
+</table>
 
 ### Example Prediction
 
-
-A request to the deployed `/predict` endpoint successfully returned:
-
+A real request to the deployed API successfully returned:
 
 ```json
 {
   "predicted_price": 208587.9375
 }
-🏗️ Architecture
-                         Ames Housing Dataset
-                                  │
-                                  ▼
-                         Feature Engineering
-                                  │
-                                  ▼
-                    Data Preprocessing Pipeline
-                    ┌────────────┴────────────┐
-                    │                         │
-               Numerical                  Categorical
-               Features                   Features
-                    │                         │
-             Median Imputation          Most-Frequent
-             Standard Scaling            Imputation
-                                             │
-                                        One-Hot Encoding
-                    └────────────┬────────────┘
-                                 ▼
-                         XGBoost Regressor
-                                 │
-                                 ▼
-                       Model Evaluation
-                                 │
-                                 ▼
-                              MLflow
-                       ┌─────────┴─────────┐
-                       │                   │
-                 Experiment Tracking   Model Registry
-                                           │
-                                      @champion
-                                           │
-                                           ▼
-                                      Model Artifact
-                                           │
-                                           ▼
-                                      FastAPI API
-                                           │
-                                           ▼
-                                         Docker
-                                           │
-                              ┌────────────┴────────────┐
-                              │                         │
-                       GitHub Actions                 GHCR
-                       CI/CD Pipeline            Docker Registry
-                              │                         │
-                              └────────────┬────────────┘
-                                           ▼
-                                         Render
-                                           │
-                                           ▼
-                                  Public REST API
 
-📊 Dataset
 
-The project uses the Ames Housing dataset, containing 1,460 residential property records and 81 columns.
 
-The target variable is: SalePrice
-The model uses the remaining housing attributes as input features.
+┌──────────────────────┐
+│   Ames Housing      │
+│      Dataset        │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Feature Engineering  │
+│                      │
+│ • TotalSF            │
+│ • HouseAge           │
+│ • TotalBathrooms     │
+│ • TotalPorchSF       │
+│ • TotalBsmtFinished  │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│       Preprocessing Pipeline         │
+│                                      │
+│  Numerical             Categorical   │
+│  ─────────             ───────────   │
+│  Median Imputation     Most Frequent │
+│  Standard Scaling      Imputation   │
+│                        One-Hot Encode│
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+          ┌─────────────────┐
+          │ XGBoost Regressor│
+          └────────┬────────┘
+                   │
+                   ▼
+             ┌───────────┐
+             │  MLflow   │
+             │           │
+             │ Tracking  │
+             │ Metrics   │
+             │ Registry  │
+             └─────┬─────┘
+                   │
+                   ▼
+             ┌───────────┐
+             │  FastAPI  │
+             │    API    │
+             └─────┬─────┘
+                   │
+                   ▼
+             ┌───────────┐
+             │   Docker  │
+             └─────┬─────┘
+                   │
+                   ▼
+           ┌────────────────┐
+           │ GitHub Actions │
+           │      CI/CD     │
+           └───────┬────────┘
+                   │
+                   ▼
+           ┌────────────────┐
+           │      GHCR      │
+           │ Docker Registry│
+           └───────┬────────┘
+                   │
+                   ▼
+             ┌───────────┐
+             │  Render   │
+             │   Cloud   │
+             └─────┬─────┘
+                   │
+                   ▼
+          🌐 Public REST API
 
-Examples include:
 
-Overall house quality
-Living area
-Basement area
-Garage characteristics
-Number of bathrooms
-Year built
-Year remodeled
-Neighborhood
-Exterior materials
-Porch/deck areas
-Lot characteristics
+
+📊 Model Performance
+
+The model was evaluated using 5-fold cross-validation and a held-out test set.
+
+<table> <tr> <th>Metric</th> <th>5-Fold CV</th> <th>Final Test</th> <th>Training</th> </tr> <tr> <td><strong>MAE</strong></td> <td>$15,393.65</td> <td>$15,440.61</td> <td>$7,948.18</td> </tr> <tr> <td><strong>RMSE</strong></td> <td>$28,670.75</td> <td>$25,637.48</td> <td>—</td> </tr> <tr> <td><strong>R²</strong></td> <td>0.8483</td> <td><strong>0.9143</strong></td> <td>0.9798</td> </tr> </table>
+📌 Interpretation
+
+The final test-set R² of 0.9143 indicates that the model explains approximately 91.4% of the variance in house sale prices on the held-out test data.
+
+The difference between training and test performance also indicates some degree of overfitting, leaving room for further regularization and hyperparameter optimization.
 
 
 🧠 Feature Engineering
 
-Domain-informed features are created before model training.
+Several domain-informed features are generated before training.
 
 TotalSF
-
-Combines basement, first-floor, and second-floor square footage:
-
 TotalSF = TotalBsmtSF + 1stFlrSF + 2ndFlrSF
+
+Represents the total residential floor area.
+
 HouseAge
-
-Age of the property when it was sold:
-
 HouseAge = YrSold - YearBuilt
+
+Represents the age of the property when it was sold.
+
 YearsSinceRemod
-
-Years since the property's last remodeling:
-
 YearsSinceRemod = YrSold - YearRemodAdd
+
+Represents how long it had been since the property was remodeled.
+
 TotalBathrooms
-
-Converts bathrooms into a single numerical feature:
-
 TotalBathrooms =
     FullBath
     + 0.5 × HalfBath
     + BsmtFullBath
     + 0.5 × BsmtHalfBath
 TotalPorchSF
-
-Combines the different outdoor/porch areas:
-
 TotalPorchSF =
     OpenPorchSF
     + EnclosedPorch
     + 3SsnPorch
     + ScreenPorch
 TotalBsmtFinished
-
-Combines finished basement areas:
-
 TotalBsmtFinished =
     BsmtFinSF1 + BsmtFinSF2
 
 
-
 🤖 Machine Learning Pipeline
 
-The project uses an end-to-end Scikit-learn pipeline.
+The project uses a Scikit-learn Pipeline combining preprocessing and the final estimator.
 
-Numerical features
-Missing values are replaced using median imputation.
-Features are standardized using StandardScaler.
-Categorical features
-Missing values are replaced using the most frequent category.
-Categories are converted using OneHotEncoder.
-Unknown categories are safely ignored during inference.
-Model
-
-The final estimator is an XGBoost Regressor.
-
-Current configuration:
-
+Numerical Features
+Missing Values
+      ↓
+Median Imputation
+      ↓
+StandardScaler
+Categorical Features
+Missing Values
+      ↓
+Most-Frequent Imputation
+      ↓
+OneHotEncoder
+      ↓
+handle_unknown="ignore"
+XGBoost
 n_estimators = 400
 learning_rate = 0.05
 max_depth = 3
 random_state = 42
 
-The preprocessing and model are stored together in a single Scikit-learn pipeline.
-
-
-
-📈 Model Evaluation
-
-The model was evaluated using 5-fold cross-validation and a held-out test set.
-
-5-Fold Cross-Validation
-Metric	Average
-MAE	$15,393.65
-RMSE	$28,670.75
-R²	0.8483
-Final Test Set
-Metric	Result
-MAE	$15,440.61
-RMSE	$25,637.48
-R²	0.9143
-Training Set
-Metric	Result
-MAE	$7,948.18
-R²	0.9798
-
-The difference between training and test performance indicates some degree of overfitting. Further hyperparameter tuning and regularization could be used to improve generalization.
-
+The preprocessing and model are saved together as a single pipeline, ensuring that inference uses the same transformations applied during training.
 
 
 ⚡ FastAPI
 
-The trained model is exposed through a REST API using FastAPI.
+The trained model is exposed through a REST API.
 
-Endpoints
-GET /
+<table> <tr> <th>Method</th> <th>Endpoint</th> <th>Description</th> </tr> <tr> <td><code>GET</code></td> <td><code>/</code></td> <td>API health/basic endpoint</td> </tr> <tr> <td><code>POST</code></td> <td><code>/predict</code></td> <td>Predict house price</td> </tr> <tr> <td><code>GET</code></td> <td><code>/docs</code></td> <td>Interactive Swagger documentation</td> </tr> </table>
 
-Health/basic API endpoint.
 
-Example response:
-
+Example Request
 {
-  "message": "House Price Prediction API"
+  "MSSubClass": 60,
+  "MSZoning": "RL",
+  "LotArea": 8450,
+  "OverallQual": 7,
+  "OverallCond": 5,
+  "YearBuilt": 2003,
+  "GrLivArea": 1710,
+  "FullBath": 2,
+  "GarageCars": 2
 }
-
-POST /predict
-
-Accepts housing characteristics and returns a predicted house price.
-
-Example response:
-
+Example Response
 {
   "predicted_price": 208587.9375
 }
 
-Interactive API Documentation
-
-Swagger UI is available at:
-
-https://house-price-api-u7zo.onrender.com/docs
-
-The API uses Pydantic for request validation.
-
-Fields containing dataset column names that begin with numbers are handled using Pydantic aliases, for example:
-
-1stFlrSF
-2ndFlrSF
-3SsnPorch
-
+The API uses Pydantic validation and supports the complete Ames Housing feature schema.
 
 🧪 Testing
 
 The project uses pytest for automated testing.
-
-Current test suite:
 
 tests/
 ├── test_api.py
@@ -248,136 +245,156 @@ API endpoints
 Request validation
 Feature engineering
 Model prediction
-Prediction output type
+Prediction output
 
-Current result:
-
-5 passed
+Current Result: 5 passed
 
 
 🐳 Docker
 
-The application is containerized using Docker.
+The application is fully containerized.
 
-Build the image:
-
+Build
 docker build -t house-price-api .
-
-Run the application:
-
+Run
 docker run -p 8000:8000 house-price-api
+Docker Compose
+docker compose up
 
-The container is configured to use the PORT environment variable when provided by the deployment platform.
-
-For local development, the application defaults to port 8000.
-
-
-🔄 CI/CD
-
-GitHub Actions is used to automatically validate the project when changes are pushed.
-
-The CI pipeline performs:
-
-Git Push
-   ↓
-GitHub Actions
-   ↓
-Install Dependencies
-   ↓
-Run pytest
-   ↓
-Build Docker Image
-   ↓
-Publish Docker Image
-
-The Docker image is published to GitHub Container Registry (GHCR) after the tests and Docker build succeed.
-
-This prevents a failing test or Docker build from being published as the latest container image.
+The application uses the PORT environment variable when supplied by the deployment platform and defaults to port 8000 locally.
 
 
 
-📦 Docker Image
+🔄 CI/CD Pipeline
+
+GitHub Actions automatically validates changes pushed to main.
+
+                 git push
+                    │
+                    ▼
+             GitHub Actions
+                    │
+          ┌─────────┴─────────┐
+          ▼                   ▼
+     Install deps           Checkout
+          │
+          ▼
+        pytest
+          │
+          ▼
+     Docker Build
+          │
+          ▼
+     ┌─────────────┐
+     │   SUCCESS   │
+     └──────┬──────┘
+            │
+            ▼
+     Publish to GHCR
+            │
+            ▼
+        Render
+
+The pipeline prevents a failing test or Docker build from being published as the latest container image.
+
+📦 GitHub Container Registry
 
 The Docker image is published to GitHub Container Registry:
 
 ghcr.io/proncyton/house-price-prediction-api:main
 
-It can be pulled using:
+Pull the image:
 
 docker pull ghcr.io/proncyton/house-price-prediction-api:main
 
+This allows the deployment platform to consume the same container image produced by the CI/CD pipeline.
 
 
-📊 MLflow
+📈 MLflow Experiment Tracking
 
-MLflow is used for experiment tracking and model management.
+MLflow is used to track machine learning experiments.
 
 The training pipeline records:
-
-Experiment information
-Training runs
 Model parameters
-Evaluation metrics
+Cross-validation metrics
+Test metrics
+Training metrics
 Model artifacts
+Training runs
 
-The experiment is:
-
+Experiment
 house-price-prediction
+
+Tracked Metrics
+cv_mae_mean
+cv_mae_std
+cv_rmse_mean
+cv_rmse_std
+cv_r2_mean
+cv_r2_std
+test_mae
+test_rmse
+test_r2
+train_mae
+train_r2
 
 
 🗂️ MLflow Model Registry
 
-The trained model is registered in MLflow as:
+The model is registered as:
 
 house-price-model
 
-The project uses a model alias:
+with the alias:
 
 @champion
 
-The alias allows model versions to be referenced logically rather than hard-coding a specific model version.
-
-For example:
+Example MLflow model URI:
 
 models:/house-price-model@champion
 
-This makes it possible to promote a newer validated model without changing the application code that references the model.
+The registry provides a mechanism for managing model versions independently from the training code.
 
-Current implementation note: MLflow experiment tracking and model registry are implemented in the training workflow. The currently deployed FastAPI service uses the packaged house_price_xgb.joblib model. Integrating MLflow Model Registry directly into the deployed inference service is planned as a future improvement.
+Implementation note: MLflow tracking and model registry are implemented in the training workflow. The currently deployed FastAPI service uses the packaged house_price_xgb.joblib model. Direct MLflow Registry loading from the production inference service is a planned improvement.
 
 
 ☁️ Deployment
 
-The API is deployed using Render.
-
-Deployment architecture:
+The API is deployed on Render using the Docker image published through GHCR.
 
 GitHub
-   ↓
+   │
+   ▼
 GitHub Actions
-   ↓
-Docker Build
-   ↓
-GitHub Container Registry
-   ↓
-Render
-   ↓
-FastAPI
-   ↓
-XGBoost Prediction
+   │
+   ├── pytest
+   ├── Docker build
+   └── GHCR publish
+          │
+          ▼
+        GHCR
+          │
+          ▼
+       Render
+          │
+          ▼
+      FastAPI
+          │
+          ▼
+      XGBoost
+          │
+          ▼
+     Prediction
 
-The deployed service successfully handles real prediction requests through the public /predict endpoint.
+Production API: https://house-price-api-u7zo.onrender.com/
 
-Live API:
+Interactive Swagger: https://house-price-api-u7zo.onrender.com/docs
 
-https://house-price-api-u7zo.onrender.com
-
-Swagger:
-
-https://house-price-api-u7zo.onrender.com/docs
 
 
 📁 Project Structure
+
+
 house-price-prediction-api/
 │
 ├── .github/
@@ -414,70 +431,66 @@ house-price-prediction-api/
 └── README.md
 
 
-
 🛠️ Local Setup
-1. Clone the repository
+1. Clone
 git clone https://github.com/proncyton/house-price-prediction-api.git
 cd house-price-prediction-api
-2. Create a virtual environment
-
-Windows:
-
+2. Create Virtual Environment
+Windows
 python -m venv .venv
 .venv\Scripts\activate
-3. Install dependencies
+3. Install Dependencies
 pip install -r requirements.txt
-4. Run tests
+4. Run Tests
 pytest
 
-Expected result:
-
+Expected:
 5 passed
-5. Start the API
+5. Start API
 uvicorn app.main:app --reload
 
 Open:
-
 http://localhost:8000/docs
-
-
-🐋 Running with Docker Compose
-docker compose up
-
-The API will be available at:
-http://localhost:8000
-
-Swagger:
-http://localhost:8000/docs
-
 
 
 🔮 Future Improvements
- Serve the production model directly from the MLflow Model Registry
- Add automated model performance gates to CI/CD
- Add automated model retraining
- Add hyperparameter optimization
- Investigate and reduce model overfitting
- Add data-quality validation
- Add data and model drift monitoring
- Replace legacy XGBoost pickle/joblib serialization with a more robust model persistence approach
- Add production logging and monitoring
- Add API authentication and rate limiting
- Add integration tests for the deployed service
-
-
+ Load production models directly from MLflow Model Registry
+ Automated model evaluation gates
+ Automated model retraining
+ Hyperparameter optimization
+ Reduce model overfitting
+ Data-quality validation
+ Data drift monitoring
+ Model drift monitoring
+ Production logging and monitoring
+ API authentication
+ API rate limiting
+ Integration tests against the deployed API
+ Replace legacy XGBoost pickle/joblib serialization
 
 
 🧰 Tech Stack
+<p align="center">
 Category	Technology
-Language	Python
-Data Processing	Pandas, NumPy
-Machine Learning	Scikit-learn, XGBoost
-API	FastAPI, Pydantic
-Testing	Pytest
-Experiment Tracking	MLflow
-Containerization	Docker
-CI/CD	GitHub Actions
-Container Registry	GitHub Container Registry
-Cloud Deployment	Render
-Model Persistence	Joblib
+🐍 Language	Python
+📊 Data	Pandas, NumPy
+🧠 Machine Learning	Scikit-learn, XGBoost
+⚡ API	FastAPI, Pydantic
+🧪 Testing	Pytest
+📈 Experiment Tracking	MLflow
+🐳 Containerization	Docker
+🔄 CI/CD	GitHub Actions
+📦 Registry	GitHub Container Registry
+☁️ Deployment	Render
+💾 Model Persistence	Joblib
+</p>
+
+⭐ Key Features
+<table> <tr> <td align="center">🧠<br><strong>End-to-End ML</strong></td> <td align="center">📊<br><strong>Model Evaluation</strong></td> <td align="center">📈<br><strong>MLflow Tracking</strong></td> <td align="center">🗂️<br><strong>Model Registry</strong></td> </tr> <tr> <td align="center">⚡<br><strong>REST API</strong></td> <td align="center">🐳<br><strong>Dockerized</strong></td> <td align="center">🔄<br><strong>CI/CD</strong></td> <td align="center">☁️<br><strong>Cloud Deployed</strong></td> </tr> </table>
+
+
+👤 Author
+Sanchit Surve
+Machine Learning / Data Science
+Built as an end-to-end ML engineering project demonstrating:
+Machine Learning → API Development → Testing → Containerization → Experiment Tracking → CI/CD → Cloud Deployment
