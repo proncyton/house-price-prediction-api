@@ -55,8 +55,8 @@ A real request to the deployed API successfully returned:
 
 
 ┌──────────────────────┐
-│   Ames Housing      │
-│      Dataset        │
+│       Housing        │
+│       Dataset        │
 └──────────┬───────────┘
            │
            ▼
